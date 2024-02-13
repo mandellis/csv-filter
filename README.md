@@ -6,12 +6,11 @@ csv-filter is an Open Source Python script for filter csv data based on differen
 # Purpose of the project
 This script was written in order to filter CFD data collected in CSV into small subgroups to speed-up mapping operation in FEM software  
 
-Status
+# Status
+In progress
 
+# Contents
+Python script
 
-Contents
-There are/will be the following subpackages:
-
-
-License
+# License
 csv-filter is open-sourced under the Apache-2.0 license. See the LICENSE file for details.
