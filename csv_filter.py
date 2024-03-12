@@ -1,33 +1,56 @@
+# Copyright (c) 2023-2024 - Lince srl
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+__author__ = "Simone Mandelli"
+__maintainer__ = __author__
+
+
 import pandas as pd
 
-drs_01 = pd.read_csv("D://VS_projects/Lince/mid_clip.csv")
-drs_01.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
+# Definitions
+readFileName  = ('mid_clip.csv',
+               'rear_clip.csv',
+               'front_clip.csv')
 
-drs_02 = pd.read_csv("D://VS_projects/Lince/mid_clip.csv")
-drs_02.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
-
-drs_03 = pd.read_csv("D://VS_projects/Lince/rear_clip.csv")
-drs_03.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
-
-drs_04 = pd.read_csv("D://VS_projects/Lince/front_clip.csv")
-drs_04.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
-
-rho=1.225
-V_id01 = 111.112
-V_id03 = 97.223
-V_id04 = 111.112
-V_id08 = 83.334
+# Fluid properties
+rho=1.225 #Density (air at 25°)
+v = 111.112 #Velocity (400km/h) at 350 -> 97.223
 
 def fx(x):
-    return x*0.5*rho*pow(V_id03,2)*1e-6
+    return x*0.5*rho*pow(v,2)*1e-6
+
+# Read data and create 
+drs_01 = pd.read_csv(readFileName[0])
+drs_01.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
+
+drs_02 = pd.read_csv(readFileName[1])
+drs_02.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
+
+drs_03 = pd.read_csv(readFileName[2])
+drs_03.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
+
+drs_04 = pd.read_csv(readFileName[3])
+drs_04.rename(columns={'Points:0':'X','Points:1':'Y','Points:2':'Z','pressure-coefficient':'cp'},inplace=True)
 
 #DRS 1 bounding box close
-#a=1518
-#b=1835
-#c=-765
-#d=-445
-#e=30
-#f=125
+a=1518
+b=1835
+c=-765
+d=-445
+e=30
+f=125
+"""""
 #DRS 1 bounding box open
 a=1516
 b=1836
@@ -35,7 +58,7 @@ c=-765
 d=-445
 e=65
 f=85
-
+"""""
 #filter data based on object bounding box
 inner01 = drs_01.query(f"{a} < X < {b} and {c} < Y < {d} and {e} < Z < {f}") 
 
@@ -47,13 +70,13 @@ print(inner01.head())
 inner01.to_csv('drs1.csv',index=False)
 
 #DRS 2 bounding box close
-#a=2648
-#b=3235
-#c=-670
-#d=-340
-#e=320
-#f=485
-
+a=2648
+b=3235
+c=-670
+d=-340
+e=320
+f=485
+"""""
 #DRS 2 bounding box open
 a=2648
 b=3235
@@ -61,7 +84,7 @@ c=-670
 d=-340
 e=170
 f=360
-
+"""""
 #filter data based on object bounding box
 inner02 = drs_02.query(f"{a} < X < {b} and {c} < Y < {d} and {e} < Z < {f}") 
 
@@ -73,21 +96,21 @@ print(inner02.head())
 inner02.to_csv('drs2.csv',index=False)
 
 #DRS 3 bounding box close
-#a=4400
-#b=4650
-#c=-1085
-#d=0
-#e=820
-#f=925
-
+a=4400
+b=4650
+c=-1085
+d=1085
+e=760
+f=925
+"""""
 #DRS 3 bounding box open
 a=4400
 b=4650
 c=-1085
-d=0
-e=760
+d=1085
+e=810
 f=925
-
+"""""
 #filter data based on object bounding box
 inner03 = drs_03.query(f"{a} < X < {b} and {c} < Y < {d} and {e} < Z < {f}") 
 
@@ -99,21 +122,22 @@ print(inner03.head())
 inner03.to_csv('drs3.csv',index=False)
 
 #DRS 4 bounding box close
-#a=-875
-#b=-635
-#c=-702
-#d=0
-#e=75
-#f=140
+a=-875
+b=-635
+c=-702
+d=702
+e=75
+f=140
 
+"""""
 #DRS 4 bounding box open
 a=-875
 b=-635
 c=-702
-d=0
+d=702
 e=35
 f=125
-
+"""
 #filter data based on object bounding box
 inner04 = drs_04.query(f"{a} < X < {b} and {c} < Y < {d} and {e} < Z < {f}") 
 
